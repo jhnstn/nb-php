@@ -21,19 +21,35 @@ else {
   $params = array('code' => $_GET['code'], 'redirect_uri' => $redirectUri );
   $response = $client->getAccessToken($accessTokenUri,'authorization_code',$params);
   $client->setAccessToken($response['result']['access_token']);
-  $people = $client->fetch('https://jasonjohnston.nationbuilder.com//api/v1/people');
+  $results = $client->fetch('https://jasonjohnston.nationbuilder.com//api/v1/people');
+  $people = $results['result'];
 }
 ?>
 
+<html>
+<head>
+<style>
+  body{
+    background-color: #CCD1F6;
+    font-family: comic-sans;
+  }
+  .person {
+    border-bottom: 1px solid #EEE;
+  }
+</style>
+</head>
+<body>
 
-<h1> People </h1>
+  <h1> People </h1>
 
-<?php foreach( $people as $person ): ?>
+  <?php foreach( $people['results'] as $person ): ?>
 
-  <div>
-    <span> <?php echo $person['first_name']; ?> </span>
-    &nbsp;
-    <span> <?php echo $person['last_name'];  ?> </span>
-  </div>
+    <div class="person" >
+      <span> <?php echo $person['first_name']; ?> </span>
+      &nbsp;
+      <span> <?php echo $person['last_name'];  ?> </span>
+    </div>
 
-<?php endforeach; ?>
+  <?php endforeach; ?>
+</body>
+</html>
